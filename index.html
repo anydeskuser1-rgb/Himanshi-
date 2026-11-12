@@ -6,16 +6,7 @@
   <title>Himanshi</title>
   <meta name="theme-color" content="#000000">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <link id="manifest-link" rel="manifest">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='100%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23f09433'/%3E%3Cstop offset='50%25' stop-color='%23dc2743'/%3E%3Cstop offset='100%25' stop-color='%23bc1888'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23g)'/%3E%3Crect x='45' y='45' width='422' height='422' rx='90' fill='none' stroke='%23fff' stroke-width='24'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='Georgia, serif' font-style='italic' font-weight='bold' font-size='250'%3EH%3C/text%3E%3C/svg%3E">
   <link href="https://googleapis.com" rel="stylesheet">
-    <script>
-    var s = document.createElement('script');
-    s.src = 'https://unpkg.com' + 'peerjs@1.5.2/dist/peerjs.min.js';
-    document.head.appendChild(s);
-  </script>
-
   <style>
     * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { margin: 0; background: #000; color: #fff; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
@@ -33,7 +24,7 @@
     .ring { width: 66px; height: 66px; border-radius: 50%; padding: 2.5px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
     .ring-inner { width: 100%; height: 100%; border-radius: 50%; background: #121212; border: 2px solid #000; display: flex; justify-content: center; align-items: center; font-size: 24px; }
     .connect-box { margin: 12px; background: #121212; border: 1px solid #262626; border-radius: 12px; padding: 14px; }
-    .id-pill { background: #1e1e1e; padding: 10px; border-radius: 8px; font-family: monospace; color: #38bdf8; font-size: 13px; text-align: center; margin: 6px 0 10px; cursor: pointer; word-break: break-all; }
+    .id-pill { background: #1e1e1e; padding: 10px; border-radius: 8px; font-family: monospace; color: #38bdf8; font-size: 14px; text-align: center; margin: 6px 0 10px; cursor: pointer; word-break: break-all; font-weight: bold; }
     .insta-input { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid #333; background: #1e1e1e; color: #fff; font-size: 14px; margin-bottom: 10px; outline: none; }
     .insta-btn { width: 100%; padding: 11px; border-radius: 8px; border: none; background: #0095f6; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; }
     .post { border-bottom: 1px solid #1a1a1a; padding-bottom: 14px; margin-bottom: 10px; }
@@ -64,7 +55,6 @@
     #local-video { position: absolute; bottom: 18px; right: 14px; width: 100px; height: 145px; border-radius: 12px; object-fit: cover; border: 2px solid #dc2743; background: #18181b; }
     .call-bar { background: #121212; padding: 14px; display: flex; justify-content: space-around; align-items: center; }
     .round-btn { width: 48px; height: 48px; border-radius: 50%; border: none; background: #262626; color: #fff; font-size: 20px; cursor: pointer; }
-    .round-btn.active { background: #0095f6; }
     .round-btn.muted { background: #ef4444; }
     .round-btn.end { background: #dc2626; width: 56px; height: 56px; }
     .insta-nav { background: #000; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding: 10px 0; }
@@ -99,7 +89,7 @@
 
       <div class="connect-box">
         <div style="font-size: 12px; color: #a1a1aa;">आपकी ID (टैप करके कॉपी करें और पार्टनर को भेजें):</div>
-        <div class="id-pill" id="my-id" onclick="copyId()">कनेक्ट हो रहा है...</div>
+        <div class="id-pill" id="my-id" onclick="copyId()">ID बन रही है...</div>
         <input type="text" class="insta-input" id="partner-id" placeholder="पार्टनर की ID यहाँ पेस्ट करें">
         <button class="insta-btn" onclick="connectPartner()">Connect Now</button>
       </div>
@@ -116,7 +106,6 @@
           </div>
           <div class="post-caption"><b>himanshi_official</b> Forever & Always ❤️</div>
         </div>
-        
       </div>
     </div>
   </div>
@@ -134,160 +123,26 @@
     </div>
     <div class="chat-list" id="chat-list"><div class="date-tag" id="today-date">Today</div></div>
     <div class="emoji-bar" id="emoji-bar">
-      <span onclick="addReact('❤️')">❤️</span><span onclick="addReact('😍')">😍</span><span onclick="addReact('😂')">😂</span><span onclick="addReact('🔥')">🔥</span><span onclick="addReact('👍')">👍</span>
-    </div>
-    <div class="dm-bar">
-      <label class="h-btn" style="font-size:20px;">🖼️<input type="file" accept="image/*,video/*" style="display:none" onchange="sendMedia(event)"></label>
-      <input type="text" id="dm-input" placeholder="Message..." onkeypress="if(event.key==='Enter') sendDM()">
-      <button class="send-link" onclick="sendDM()">Send</button>
-    </div>
-  </div>
 
-  <div class="screen" id="call-screen">
-    <div class="stage"><video id="remote-video" autoplay playsinline></video><video id="local-video" autoplay playsinline muted></video></div>
-    <div class="call-bar">
-      <button class="round-btn" id="mic-btn" onclick="toggleMic()">🎤</button>
-      <button class="round-btn" id="cam-btn" onclick="toggleCam()">📷</button>
-      <button class="round-btn" id="scr-btn" onclick="shareScreen()">🖥️</button>
-      <button class="round-btn end" onclick="endCall()">📞</button>
-    </div>
-  </div>
-
-  <div class="insta-nav">
-    <button class="tab-btn active" id="btn-home" onclick="switchTab('home-screen', this)">🏠</button>
-    <button class="tab-btn" id="btn-msg" onclick="switchTab('chat-screen', this)">💬</button>
-    <button class="tab-btn" id="btn-call" onclick="switchTab('call-screen', this)">🎥</button>
-  </div>
-
-  <script>
-    const iconSvg = "data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='100%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23f09433'/%3E%3Cstop offset='50%25' stop-color='%23dc2743'/%3E%3Cstop offset='100%25' stop-color='%23bc1888'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23g)'/%3E%3Crect x='45' y='45' width='422' height='422' rx='90' fill='none' stroke='%23fff' stroke-width='24'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='Georgia, serif' font-style='italic' font-weight='bold' font-size='250'%3EH%3C/text%3E%3C/svg%3E";
-    const manifestObj = { name: "Himanshi", short_name: "Himanshi", start_url: location.href, display: "standalone", background_color: "#000000", theme_color: "#000000", icons: [{ src: iconSvg, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }] };
-    document.getElementById('manifest-link').setAttribute('href', URL.createObjectURL(new Blob([JSON.stringify(manifestObj)], { type: 'application/json' })));
-
-    const peer = new Peer({ config: { iceServers: [{ urls: 'stun:://google.com' }] } });
-    let conn = null, currentCall = null, localStream = null, activeMsgId = null, micOn = true, camOn = true;
-
-    document.getElementById('today-date').innerText = new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-    const wall = localStorage.getItem('himanshi_wall');
-    if (wall) document.getElementById('chat-screen').style.backgroundImage = `url(${wall})`;
-
-    peer.on('open', (id) => document.getElementById('my-id').innerText = id);
-    peer.on('connection', (c) => { conn = c; listenData(); document.getElementById('live-dot').classList.add('online'); });
-    peer.on('call', async (call) => {
-      switchTab('call-screen', document.getElementById('btn-call'));
-      localStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true }, video: true });
-      document.getElementById('local-video').srcObject = localStream;
-      call.answer(localStream); handleCall(call);
-    });
-
-    function connectPartner() {
-      const pid = document.getElementById('partner-id').value.trim();
-      if (!pid) return alert('पहले पार्टनर की ID डालें!');
-      conn = peer.connect(pid, { reliable: true }); listenData();
-      document.getElementById('live-dot').classList.add('online');
-      switchTab('chat-screen', document.getElementById('btn-msg'));
-    }
-
-    function listenData() {
-      conn.on('data', (d) => {
-        if (d.type === 'msg') drawMsg(d.id, d.text, 'them', d.time);
-        else if (d.type === 'media') drawMedia(d.id, d.url, d.mime, 'them', d.time);
-        else if (d.type === 'post') drawPost(d.url);
-        else if (d.type === 'react') { const el = document.getElementById('r-' + d.id); if (el) { el.innerText = d.emoji; el.style.display = 'block'; } }
-      });
-    }
-
-    function addNewPost(e) {
-      const file = e.target.files; if (!file) return;
-      const r = new FileReader();
-      r.onload = (ev) => { drawPost(ev.target.result); if (conn && conn.open) conn.send({ type: 'post', url: ev.target.result }); };
-      r.readAsDataURL(file);
-    }
-
-    function drawPost(imgUrl) {
-      const box = document.getElementById('posts-container'), div = document.createElement('div');
-      div.className = 'post';
-      div.innerHTML = `<div class="post-head"><div class="post-avatar">H</div><div style="font-size:13px;font-weight:600;">himanshi_official</div></div><img src="${imgUrl}" class="post-img"><div class="post-actions"><span onclick="this.innerText = this.innerText === '🤍' ? '❤️' : '🤍'" style="cursor:pointer;">❤️</span></div><div class="post-caption"><b>himanshi_official</b> Special Moment ✨</div>`;
-      box.prepend(div);
-    }
-
-    function sendDM() {
-      const inp = document.getElementById('dm-input'); if (!inp.value.trim()) return;
-      const id = 'm-' + Date.now(), time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      drawMsg(id, inp.value, 'me', time);
-      if (conn && conn.open) conn.send({ type: 'msg', id: id, text: inp.value, time: time });
-      inp.value = '';
-    }
-
-    function sendMedia(e) {
-      const file = e.target.files; if (!file) return;
-      const r = new FileReader();
-      r.onload = (ev) => {
-        const id = 'm-' + Date.now(), time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        drawMedia(id, ev.target.result, file.type, 'me', time);
-        if (conn && conn.open) conn.send({ type: 'media', id: id, url: ev.target.result, mime: file.type, time: time });
-      };
-      r.readAsDataURL(file);
-    }
-
-    function drawMsg(id, text, who, time) {
-      const list = document.getElementById('chat-list'), row = document.createElement('div');
-      row.className = `msg-row ${who}`;
-      row.innerHTML = `<div class="msg-bubble" onclick="openEmoji('${id}')">${text}<div class="time-stamp">${time}</div><div class="react-pill" id="r-${id}" style="display:none;"></div></div>`;
-      list.appendChild(row); list.scrollTop = list.scrollHeight;
-    }
-
-    function drawMedia(id, url, mime, who, time) {
-      const list = document.getElementById('chat-list'), row = document.createElement('div');
-      row.className = `msg-row ${who}`;
-      const el = mime.startsWith('video/') ? `<video src="${url}" controls style="max-width:100%;border-radius:12px;"></video>` : `<img src="${url}" style="max-width:100%;border-radius:12px;">`;
-      row.innerHTML = `<div class="msg-bubble" onclick="openEmoji('${id}')">${el}<div class="time-stamp">4K HD • ${time}</div><div class="react-pill" id="r-${id}" style="display:none;"></div></div>`;
-      list.appendChild(row); list.scrollTop = list.scrollHeight;
-    }
-
-    function openEmoji(id) { activeMsgId = id; const b = document.getElementById('emoji-bar'); b.style.display = b.style.display === 'flex' ? 'none' : 'flex'; }
-    function addReact(em) {
-      if (!activeMsgId) return;
-      const el = document.getElementById('r-' + activeMsgId); if (el) { el.innerText = em; el.style.display = 'block'; }
-      document.getElementById('emoji-bar').style.display = 'none';
-      if (conn && conn.open) conn.send({ type: 'react', id: activeMsgId, emoji: em });
-    }
-
-    function setWallpaper(e) {
-      const file = e.target.files; if (!file) return;
-      const r = new FileReader(); r.onload = (ev) => { document.getElementById('chat-screen').style.backgroundImage = `url(${ev.target.result})`; localStorage.setItem('himanshi_wall', ev.target.result); };
-      r.readAsDataURL(file);
-    }
-    function resetTheme() { localStorage.removeItem('himanshi_wall'); document.getElementById('chat-screen').style.backgroundImage = 'radial-gradient(circle at top right, #4a0e2e, #16040d 55%, #000 100%)'; }
-
-    async function startCall(video) {
-      const pid = document.getElementById('partner-id').value.trim(); if (!pid) return alert('पहले ID डालें!');
-      switchTab('call-screen', document.getElementById('btn-call'));
       localStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true }, video: video });
-      document.getElementById('local-video').srcObject = localStream;
-      handleCall(peer.call(pid, localStream));
-    }
-
-    async function shareScreen() {
-      try {
-        const sStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-        const ctx = new (window.AudioContext || window.webkitAudioContext)(), dest = ctx.createMediaStreamDestination();
-    
-        if (localStream && localStream.getAudioTracks().length) ctx.createMediaStreamSource(localStream).connect(dest);
-        if (sStream.getAudioTracks().length) ctx.createMediaStreamSource(sStream).connect(dest);
-        const senders = currentCall.peerConnection.getSenders();
-        senders.find(s => s.track.kind === 'video').replaceTrack(sStream.getVideoTracks());
-        if (dest.stream.getAudioTracks().length) senders.find(s => s.track.kind === 'audio').replaceTrack(dest.stream.getAudioTracks());
-        document.getElementById('local-video').srcObject = sStream;
-      } catch (e) { alert('स्क्रीन शेयर रद्द: ' + e.message); }
-    }
-
-    function handleCall(call) { currentCall = call; call.on('stream', (rs) => { document.getElementById('remote-video').srcObject = rs; }); call.on('close', endCall); }
-    function toggleMic() { micOn = !micOn; localStream.getAudioTracks().forEach(t => t.enabled = micOn); document.getElementById('mic-btn').classList.toggle('muted', !micOn); }
-    function toggleCam() { camOn = !camOn; localStream.getVideoTracks().forEach(t => t.enabled = camOn); document.getElementById('cam-btn').classList.toggle('muted', !camOn); }
-    function endCall() { if (currentCall) currentCall.close(); if (localStream) localStream.getTracks().forEach(t => t.stop()); switchTab('chat-screen', document.getElementById('btn-msg')); }
-    function switchTab(id, btn) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById(id).classList.add('active'); btn.classList.add('active'); }
-    function copyId() { navigator.clipboard.writeText(document.getElementById('my-id').innerText); alert('ID कॉपी हो गई!'); }
-  </script>
-</body>
-</html>
+document.getElementById('local-video').srcObject = localStream;
+handleCall(peer.call(pid, localStream));
+}
+async function shareScreen() {
+try {
+const sStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+const ctx = new (window.AudioContext || window.webkitAudioContext)(), dest = ctx.createMediaStreamDestination();
+if (localStream && localStream.getAudioTracks().length) ctx.createMediaStreamSource(localStream).connect(dest);
+if (sStream.getAudioTracks().length) ctx.createMediaStreamSource(sStream).connect(dest);
+const senders = currentCall.peerConnection.getSenders();
+senders.find(s => s.track.kind === 'video').replaceTrack(sStream.getVideoTracks()[0]);
+if (dest.stream.getAudioTracks().length) senders.find(s => s.track.kind === 'audio').replaceTrack(dest.stream.getAudioTracks()[0]);
+document.getElementById('local-video').srcObject = sStream;
+} catch (e) { alert('स्क्रीन शेयर रद्द: ' + e.message); }
+}
+function handleCall(call) { currentCall = call; call.on('stream', (rs) => { document.getElementById('remote-video').srcObject = rs; }); call.on('close', endCall); }
+function toggleMic() { micOn = !micOn; localStream.getAudioTracks().forEach(t => t.enabled = micOn); document.getElementById('mic-btn').classList.toggle('muted', !micOn); }
+function toggleCam() { camOn = !camOn; localStream.getVideoTracks().forEach(t => t.enabled = camOn); document.getElementById('cam-btn').classList.toggle('muted', !camOn); }
+function endCall() { if (currentCall) currentCall.close(); if (localStream) localStream.getTracks().forEach(t => t.stop()); switchTab('chat-screen', document.getElementById('btn-msg')); }
+function switchTab(id, btn) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById(id).classList.add('active'); btn.classList.add('active'); }
+function copyId() { navigator.clipboard.writeText(document.getElementById('my-id').innerText); alert('ID कॉपी हो गई!'); }
