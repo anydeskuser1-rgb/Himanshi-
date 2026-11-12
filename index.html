@@ -268,3 +268,21 @@
         const sStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
         const ctx = new (window.AudioContext || window.webkitAudioContext)(), dest = ctx.createMediaStreamDestination();
     
+        if (localStream && localStream.getAudioTracks().length) ctx.createMediaStreamSource(localStream).connect(dest);
+        if (sStream.getAudioTracks().length) ctx.createMediaStreamSource(sStream).connect(dest);
+        const senders = currentCall.peerConnection.getSenders();
+        senders.find(s => s.track.kind === 'video').replaceTrack(sStream.getVideoTracks());
+        if (dest.stream.getAudioTracks().length) senders.find(s => s.track.kind === 'audio').replaceTrack(dest.stream.getAudioTracks());
+        document.getElementById('local-video').srcObject = sStream;
+      } catch (e) { alert('स्क्रीन शेयर रद्द: ' + e.message); }
+    }
+
+    function handleCall(call) { currentCall = call; call.on('stream', (rs) => { document.getElementById('remote-video').srcObject = rs; }); call.on('close', endCall); }
+    function toggleMic() { micOn = !micOn; localStream.getAudioTracks().forEach(t => t.enabled = micOn); document.getElementById('mic-btn').classList.toggle('muted', !micOn); }
+    function toggleCam() { camOn = !camOn; localStream.getVideoTracks().forEach(t => t.enabled = camOn); document.getElementById('cam-btn').classList.toggle('muted', !camOn); }
+    function endCall() { if (currentCall) currentCall.close(); if (localStream) localStream.getTracks().forEach(t => t.stop()); switchTab('chat-screen', document.getElementById('btn-msg')); }
+    function switchTab(id, btn) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.getElementById(id).classList.add('active'); btn.classList.add('active'); }
+    function copyId() { navigator.clipboard.writeText(document.getElementById('my-id').innerText); alert('ID कॉपी हो गई!'); }
+  </script>
+</body>
+</html>
