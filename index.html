@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Himanshi</title>
+  <meta name="theme-color" content="#000000">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Himanshi">
+  <link id="manifest-link" rel="manifest">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='100%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23f09433'/%3E%3Cstop offset='50%25' stop-color='%23dc2743'/%3E%3Cstop offset='100%25' stop-color='%23bc1888'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23g)'/%3E%3Crect x='45' y='45' width='422' height='422' rx='90' fill='none' stroke='%23fff' stroke-width='24'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='Georgia, serif' font-style='italic' font-weight='bold' font-size='250'%3EH%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='100%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23f09433'/%3E%3Cstop offset='50%25' stop-color='%23dc2743'/%3E%3Cstop offset='100%25' stop-color='%23bc1888'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='115' fill='url(%23g)'/%3E%3Crect x='45' y='45' width='422' height='422' rx='90' fill='none' stroke='%23fff' stroke-width='24'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='Georgia, serif' font-style='italic' font-weight='bold' font-size='250'%3EH%3C/text%3E%3C/svg%3E">
+  <link href="https://googleapis.com" rel="stylesheet">
+  <script src="https://unpkg.com"></script>
+  <style>
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; background: #000; color: #fff; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+    /* Instagram स्टाइल टॉप बार */
+    .insta-header { padding: 10px 16px; background: #000; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a1a1a; }
+    .brand-title { font-family: 'Grand Hotel', cursive; font-size: 34px; letter-spacing: 0.5px; color: #fff; margin: 0; font-weight: 400; }
+    .header-icons { display: flex; gap: 18px; align-items: center; }
+    .h-btn { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; padding: 0; }
+    .live-dot { width: 9px; height: 9px; border-radius: 50%; background: #ef4444; display: inline-block; }
+    .live-dot.online { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
+
+    .screen { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+    .screen.active { display: flex; }
+
+    /* 1. Home Feed Screen */
+    .feed-scroll { flex: 1; overflow-y: auto; }
+    .stories-row { display: flex; gap: 14px; padding: 12px 14px; border-bottom: 1px solid #1a1a1a; overflow-x: auto; }
+    .story { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 11px; color: #e4e4e7; min-width: 68px; cursor: pointer; }
+    .ring { width: 66px; height: 66px; border-radius: 50%; padding: 2.5px; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .ring-inner { width: 100%; height: 100%; border-radius: 50%; background: #121212; border: 2px solid #000; display: flex; justify-content: center; align-items: center; font-size: 24px; }
+
+    .connect-box { margin: 12px; background: #121212; border: 1px solid #262626; border-radius: 12px; padding: 14px; }
+    .id-pill { background: #1e1e1e; padding: 10px; border-radius: 8px; font-family: monospace; color: #38bdf8; font-size: 13px; text-align: center; margin: 6px 0 10px; cursor: pointer; word-break: break-all; }
+    .insta-input { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid #333; background: #1e1e1e; color: #fff; font-size: 14px; margin-bottom: 10px; outline: none; }
+    .insta-btn { width: 100%; padding: 11px; border-radius: 8px; border: none; background: #0095f6; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; }
+
+    .post { border-bottom: 1px solid #1a1a1a; padding-bottom: 14px; margin-bottom: 10px; }
+    .post-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; }
+    .post-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 14px; }
+    .post-img { width: 100%; max-height: 380px; object-fit: cover; background: #111; display: block; }
+    .post-actions { display: flex; gap: 16px; padding: 10px 14px 4px; font-size: 22px; }
+    .post-caption { padding: 0 14px; font-size: 13px; color: #f4f4f5; }
+
+    /* 2. Messages Screen */
+    #chat-screen { background: radial-gradient(circle at top right, #4a0e2e, #16040d 55%, #000 100%); background-size: cover; background-position: center; }
+    .dm-top { background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
+    .chat-list { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .date-tag { align-self: center; background: rgba(0,0,0,0.6); font-size: 11px; color: #a1a1aa; padding: 4px 12px; border-radius: 12px; }
+    .msg-row { display: flex; flex-direction: column; max-width: 76%; }
+    .msg-row.me { align-self: flex-end; align-items: flex-end; }
+    .msg-row.them { align-self: flex-start; align-items: flex-start; }
+    .msg-bubble { padding: 10px 14px; border-radius: 20px; font-size: 14.5px; line-height: 1.4; position: relative; word-wrap: break-word; cursor: pointer; }
+    .me .msg-bubble { background: linear-gradient(135deg, #ff2a6d, #9b5de5); color: #fff; border-bottom-right-radius: 4px; }
+    .them .msg-bubble { background: #262626; color: #fff; border-bottom-left-radius: 4px; }
+    .time-stamp { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 3px; text-align: right; }
+    .react-pill { position: absolute; bottom: -10px; right: 8px; background: #1f1f23; border: 1px solid #333; border-radius: 12px; padding: 1px 6px; font-size: 12px; }
+    .emoji-bar { display: none; position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%); background: #262626; padding: 8px 14px; border-radius: 25px; gap: 12px; font-size: 22px; z-index: 50; }
+    .dm-input-bar { background: #000; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-top: 1px solid #1f1f1f; }
+    .dm-input-bar input[type="text"] { flex: 1; background: #1c1c1e; border: 1px solid #2c2c2e; padding: 10px 14px; border-radius: 22px; color: #fff; font-size: 14px; outline: none; }
+    .send-link { background: none; border: none; color: #0095f6; font-weight: bold; font-size: 15px; cursor: pointer; }
+
+    /* 3. Call & Screen Share */
+    #call-screen { background: #000; }
+    .stage { flex: 1; position: relative; display: flex; justify-content: center; align-items: center; }
+    #remote-video { width: 100%; height: 100%; object-fit: contain; }
+    #local-video { position: absolute; bottom: 18px; right: 14px; width: 100px; height: 145px; border-radius: 12px; object-fit: cover; border: 2px solid #dc2743; background: #18181b; }
+    .call-bar { background: #121212; padding: 14px; display: flex; justify-content: space-around; align-items: center; }
+    .round-btn { width: 48px; height: 48px; border-radius: 50%; border: none; background: #262626; color: #fff; font-size: 20px; cursor: pointer; }
+    .round-btn.active { background: #0095f6; }
+    .round-btn.muted { background: #ef4444; }
+    .round-btn.end { background: #dc2626; width: 56px; height: 56px; }
+
+    /* Bottom Navigation */
+    .insta-nav { background: #000; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding: 10px 0; }
+    .tab-btn { background: none; border: none; color: #71717a; font-size: 24px; cursor: pointer; }
+    .tab-btn.active { color: #fff; transform: scale(1.1); }
+  </style>
+</head>
+<body>
+
+  <div class="insta-header">
+    <h1 class="brand-title">Himanshi</h1>
+    <div class="header-icons">
+      <span class="live-dot" id="live-dot"></span>
+      <label class="h-btn" title="नई फोटो पोस्ट करें">➕<input type="file" accept="image/*" style="display:none" onchange="addNewPost(event)"></label>
+      <button class="h-btn" onclick="startCall(false)">📞</button>
+      <button class="h-btn" onclick="startCall(true)">📹</button>
+    </div>
+  </div>
+
+  <div class="screen active" id="home-screen">
+    <div class="feed-scroll" id="feed-scroll">
+      <div class="stories-row">
+        <div class="story" onclick="switchTab('chat-screen', document.getElementById('btn-msg'))">
+          <div class="ring"><div class="ring-inner">❤️</div></div>
+          <span>Himanshi</span>
+        </div>
+        <div class="story" onclick="startCall(true)">
+          <div class="ring"><div class="ring-inner">📹</div></div>
+          <span>Live Call</span>
+        </div>
+        <div class="story" onclick="switchTab('call-screen', document.getElementById('btn-call'))">
+          <div class="ring"><div class="ring-inner">🖥️</div></div>
+          <span>Screen Share</span>
+        </div>
+      </div>
+
+      <div class="connect-box">
+        
